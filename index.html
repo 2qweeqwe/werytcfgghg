@@ -51,4 +51,122 @@
         .opt:hover{
             background:#e9ebff;
         }
-        .opt.a...
+        .opt.active{
+            background:#6366f1;
+            color:#fff;
+        }
+        .btn{
+            width:100%;
+            background:#6366f1;
+            color:#fff;
+            border:none;
+            border-radius:8px;
+            padding:14px;
+            font-size:16px;
+            cursor:pointer;
+            margin-top:20px;
+        }
+        .result-box{
+            display:none;
+            margin-top:30px;
+            padding:20px;
+            border-radius:12px;
+            background:#f0f4ff;
+            text-align:center;
+        }
+        .result-title{
+            font-size:20px;
+            font-weight:bold;
+            color:#6366f1;
+            margin-bottom:15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✨ 处世人格小测试</h1>
+        <div class="desc">6道题，测出你是随大流or做自己</div>
+
+        <div class="q-item">
+            <div class="q-title">1. 身边同学都统一选择同一方向，你会？</div>
+            <label class="opt" data-score="0">A. 跟随大家，避免特殊</label>
+            <label class="opt" data-score="1">B. 坚持自己的喜好</label>
+        </div>
+        <div class="q-item">
+            <div class="q-title">2. 朋友都在追同款热点、玩同款梗？</div>
+            <label class="opt" data-score="0">A. 主动融入，方便合群</label>
+            <label class="opt" data-score="1">B. 无感跳过，保留小世界</label>
+        </div>
+        <div class="q-item">
+            <div class="q-title">3. 集体决定你并不认同？</div>
+            <label class="opt" data-score="0">A. 默默迁就，避免矛盾</label>
+            <label class="opt" data-score="1">B. 表达想法，不盲从</label>
+        </div>
+        <div class="q-item">
+            <div class="q-title">4. 别人的评价容易影响你吗？</div>
+            <label class="opt" data-score="0">A. 很在意，害怕与众不同</label>
+            <label class="opt" data-score="1">B. 优先自己感受</label>
+        </div>
+        <div class="q-item">
+            <div class="q-title">5. 周围都在疯狂内卷？</div>
+            <label class="opt" data-score="0">A. 跟着一起卷，不落后</label>
+            <label class="opt" data-score="1">B. 保持自己节奏</label>
+        </div>
+        <div class="q-item">
+            <div class="q-title">6. 你的社交模式更像？</div>
+            <label class="opt" data-score="0">A. 随和百搭，融入集体</label>
+            <label class="opt" data-score="1">B. 保持棱角，独立自由</label>
+        </div>
+
+        <button class="btn" onclick="getResult()">立即查看我的人格</button>
+
+        <div class="result-box" id="result">
+            <div class="result-title" id="resTitle"></div>
+            <div id="resText"></div>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        let options = document.querySelectorAll(".opt");
+        options.forEach(item=>{
+            item.onclick = function(){
+                let parent = this.parentElement;
+                parent.querySelectorAll(".opt").forEach(o=>o.classList.remove("active"));
+                this.classList.add("active");
+            }
+        })
+
+        function getResult(){
+            score = 0;
+            let selected = document.querySelectorAll(".opt.active");
+            if(selected.length < 6){
+                alert("请完成全部6道题目再提交！");
+                return;
+            }
+            selected.forEach(item=>{
+                score += Number(item.dataset.score);
+            })
+
+            let title,text;
+            if(score <= 2){
+                title = "🌼 温和从众型 · 合群治愈者";
+                text = "你适配力超强，温柔包容，擅长融入集体。习惯随大流降低社交压力，很好相处，但容易为了合群忽略自己的本心。";
+            }else if(score === 3){
+                title = "🍃 外圆内方型 · 平衡天花板";
+                text = "顶级成熟人格，外表合群懂变通，内心清醒有底线。不盲从、不孤僻，完美平衡做自己与随大流，从不内耗。";
+            }else if(score <= 5){
+                title = "🌙 清醒自我型 · 独立思考者";
+                text = "你拥有独立判断力，不被潮流与内卷绑架。偏爱高质量独处，有热爱、有原则、有节奏，清醒又自由。";
+            }else{
+                title = "🔥 极致独行型 · 真我主义者";
+                text = "棱角鲜明，拒绝一切迎合与勉强。不为合群妥协，不人云亦云，永远忠于自我，活得独特又通透。";
+            }
+
+            document.getElementById("resTitle").innerText = title;
+            document.getElementById("resText").innerText = text;
+            document.getElementById("result").style.display = "block";
+        }
+    </script>
+</body>
+</html>
